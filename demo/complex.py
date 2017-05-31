@@ -12,9 +12,6 @@ class ComplexCartesian(object):
     def __add__(self,other):
         return ComplexCartesian(self.re+other.re, self.im+other.im)
 
-    def __reduce__(self,other):
-        return ComplexCartesian(self.re-other.re, self.im-other.im)
-
     
 
 class ComplexPolar(object):
@@ -47,13 +44,6 @@ class UnittestComplexCartesian(unittest.TestCase):
         self.assertAlmostEqual(num.re, 0)
         self.assertAlmostEqual(num.im, 0)
         
-    def test_reduceComplex(self):
-        num1=ComplexCartesian(2.72, -12.12)
-        num2=ComplexCartesian(-2.72, 12.12)
-        num=num1-num2
-        self.assertAlmostEqual(num.re, 5.44)
-        self.assertAlmostEqual(num.im, -24.24)
-    
 
 class UnittestComplexPolar(unittest.TestCase):
     def test_Complex(self):
