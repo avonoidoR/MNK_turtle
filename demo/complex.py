@@ -12,6 +12,9 @@ class ComplexCartesian(object):
     def __add__(self,other):
         return ComplexCartesian(self.re+other.re, self.im+other.im)
 
+    def __sub__(self,other):
+        return ComplexCartesian(self.re-other.re, self.im-other.im)
+
     
 
 class ComplexPolar(object):
@@ -20,10 +23,13 @@ class ComplexPolar(object):
         self.phase = phase
 
     def __repr__(self):
-        return 'ComplexPolar({}*e**i*{})' .format(self.mod,self.phase)
+        return 'ComplexPolar({},{})' .format(self.mod,self.phase)
 
     def __mul__(self,other):
         return ComplexPolar(self.mod*other.mod, self.phase+other.phase)
+
+    def __div__(self,other):
+        return ComplexPolar(self.mod/other.mod, self.phase-other.phase)
 
 
 
@@ -44,6 +50,13 @@ class UnittestComplexCartesian(unittest.TestCase):
         num=num1+num2
         self.assertAlmostEqual(num.re, 0)
         self.assertAlmostEqual(num.im, 0)
+
+    def test_subComplex(self):
+        num1=ComplexCartesian(2.72, -12.12)
+        num2=ComplexCartesian(-2.72, 12.12)
+        num=num1-num2
+        self.assertAlmostEqual(num.re, 5.44)
+        self.assertAlmostEqual(num.im, -24.24)
         
 
 class UnittestComplexPolar(unittest.TestCase):
@@ -54,14 +67,21 @@ class UnittestComplexPolar(unittest.TestCase):
 
     def test_reprComplex(self):
         num=ComplexPolar(2.73, 30)
-        self.assertEqual(repr(num), 'ComplexPolar(2.73*e**i*30)')
+        self.assertEqual(repr(num), 'ComplexPolar(2.73,30)')
 
-    def test_addComplex(self):
+    def test_mulComplex(self):
         num1=ComplexPolar(2, -30)
         num2=ComplexPolar(2, 30)
         num=num1*num2
         self.assertAlmostEqual(num.mod, 4)
         self.assertAlmostEqual(num.phase, 0)
+
+    def test_divComplex(self):
+        num1=ComplexPolar(2, -30)
+        num2=ComplexPolar(2, 30)
+        num=num1/num2
+        self.assertAlmostEqual(num.mod, 1)
+        self.assertAlmostEqual(num.phase, -60)
         
         
 if __name__=='__main__':
